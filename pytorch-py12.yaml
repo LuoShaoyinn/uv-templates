@@ -1,0 +1,52 @@
+[project]
+name = "pytorch"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12, <3.13"
+
+dependencies = [
+    "torch",
+    "tensorboard>=2.20.0",
+    "ipython>=9.10.0",
+    "setuptools<80.0.0",
+]
+
+[project.optional-dependencies]
+cuda = ["torch", "triton"]
+metal = ["torch"]
+rocm = ["torch", "triton", "triton-kernels"]
+
+[tool.uv]
+override-dependencies = [
+    "quadrants>=0.4.2",
+]
+
+conflicts = [[{ extra = "cuda" }, { extra = "rocm" }],
+             [{ extra = "metal" }, { extra = "rocm" }],
+             [{ extra = "metal" }, { extra = "cuda" }]]
+
+[tool.uv.sources]
+torch = [
+  { url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/torch-2.10.0%2Brocm7.2.0.lw.gitb6ee5fde-cp312-cp312-linux_x86_64.whl", extra = "rocm"},
+  { index = "pytorch-cuda130", extra = "cuda" },
+  { index = "pytorch-darwin", extra = "metal"}
+]
+triton = [
+  { url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/triton-3.6.0%2Brocm7.2.0.gitba5c1517-cp312-cp312-linux_x86_64.whl", extra = "rocm"},
+  { index = "pytorch-cuda130", extra = "cuda", marker = "extra == 'cuda'" }
+]
+triton-kernels = [
+  { url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/triton_kernels-1.0.0-py3-none-any.whl", extra = "rocm"},
+]
+
+[[tool.uv.index]]
+name = "pytorch-cuda130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-darwin"
+url = "https://pypi.org/simple"
+explicit = true
+
