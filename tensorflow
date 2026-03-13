@@ -1,0 +1,33 @@
+[project]
+name = "tf-base"
+version = "0.1.0"
+requires-python = ">=3.10,<3.13"
+dependencies = []
+
+[project.optional-dependencies]
+cuda = [
+  "tensorflow[and-cuda]",
+]
+rocm = [
+  "tensorflow-rocm",
+]
+
+[tool.uv.sources]
+tensorflow-rocm = { index = "rocm72" }
+
+[[tool.uv.index]]
+name = "rocm72"
+url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/"
+format = "flat"
+explicit = true
+
+[tool.uv]
+conflicts = [
+  [
+    { extra = "cuda" },
+    { extra = "rocm" },
+  ],
+]
+environments = [
+  "sys_platform == 'linux'",
+]
