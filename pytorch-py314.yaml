@@ -1,9 +1,9 @@
 [project]
-name = "gs-soccer"
+name = "python-template"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 
 dependencies = [
     "torch",
@@ -22,16 +22,16 @@ conflicts = [[{ extra = "cuda" }, { extra = "rocm" }],
 
 [tool.uv.sources]
 torch = [
-  { index = "rocm72", extra = "rocm"},
+  { index = "rocm721", extra = "rocm"},
   { index = "cuda130", extra = "cuda" },
   { index = "darwin", extra = "metal"}
 ]
 triton = [
-  { index = "rocm72", extra = "rocm"},
+  { index = "rocm721", extra = "rocm"},
   { index = "cuda130", extra = "cuda", marker = "extra == 'cuda'" }
 ]
 triton-kernels = [
-  { index = "rocm72", extra = "rocm"},
+  { index = "rocm721", extra = "rocm"},
 ]
 
 [[tool.uv.index]]
@@ -45,8 +45,7 @@ url = "https://pypi.org/simple"
 explicit = true
 
 [[tool.uv.index]]
-name = "rocm72"
-url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/"
+name = "rocm721"
+url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2.1/"
 format = "flat"
-explicit = true
 explicit = true
