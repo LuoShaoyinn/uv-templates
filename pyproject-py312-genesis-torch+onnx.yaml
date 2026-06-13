@@ -1,0 +1,54 @@
+[project]
+name = "new-project-name"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12, <3.13"
+
+dependencies = [
+    "torch",
+    "gymnasium[classic-control]",
+    "genesis-world",
+    "tensorboard>=2.20.0",
+    "skrl[torch]>=1.4.3",
+    "ipython>=9.10.0",
+    "setuptools<80.0.0",
+]
+
+[project.optional-dependencies]
+cuda = ["torch", "triton", "onnxruntime-gpu"]
+metal = ["torch", "triton", "onnxruntime"]
+rocm = ["torch", "triton", "onnxruntime-migraphx"]
+
+[tool.uv]
+conflicts = [[{ extra = "cuda" }, { extra = "rocm" }],
+             [{ extra = "metal" }, { extra = "rocm" }],
+             [{ extra = "metal" }, { extra = "cuda" }]]
+
+[tool.uv.sources]
+torch = [
+  { index = "rocm724", extra = "rocm"},
+  { index = "cuda130", extra = "cuda" },
+  { index = "darwin", extra = "metal"}
+]
+triton = [
+  { index = "rocm724", extra = "rocm"},
+  { index = "cuda130", extra = "cuda"},
+  { index = "darwin", extra = "metal"}
+]
+
+[[tool.uv.index]]
+name = "cuda130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[[tool.uv.index]]
+name = "darwin"
+url = "https://pypi.org/simple"
+explicit = true
+
+[[tool.uv.index]]
+name = "rocm724"
+url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2.4/"
+format = "flat"
+explicit = true
